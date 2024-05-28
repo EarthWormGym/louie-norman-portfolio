@@ -1,1 +1,19 @@
-node_modules
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+.angular/cache/
+
+# IDE and OS generated files
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Misc
+.DS_Store
+Thumbs.db
