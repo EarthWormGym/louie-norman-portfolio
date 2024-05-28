@@ -1,0 +1,58 @@
+.container {
+    display: grid;
+    grid-template-areas:
+      "header header header"
+      "buttons content content"
+      "footer footer footer";
+    grid-template-rows: auto 1fr auto; // Header and footer adjust, main content takes up remaining space
+    height: 100vh; // Make container take up full viewport height
+  }
+  
+  header {
+    grid-area: header;
+    display: flex; // Align items within the header
+    justify-content: space-between; // Distribute items evenly
+    padding: 1rem;
+  
+    > div { // Style for each text element in header
+      align-self: center; // Vertically center text
+    }
+  }
+  
+  main {
+    grid-area: buttons content;
+    display: grid;
+    grid-template-columns: auto 1fr; // Buttons take needed space, content the rest
+    gap: 1rem;
+    padding: 1rem;
+  }
+  
+  .button-list {
+    grid-area: buttons;
+    display: flex;
+    flex-direction: column; // Arrange buttons vertically
+    gap: 0.5rem;
+  
+    button {
+      padding: 0.8rem 1.2rem;
+      border: none;
+      background-color: lightgray; // Default color
+      cursor: pointer;
+      transition: background-color 0.3s ease; // Smooth hover effect
+  
+      &:hover {
+        background-color: gray; // Highlighted color
+      }
+    }
+  }
+  
+  .content {
+    grid-area: content;
+    // Add content-specific styling here if needed
+  }
+  
+  footer {
+    grid-area: footer;
+    // Add footer styling here if needed
+  }
+  
