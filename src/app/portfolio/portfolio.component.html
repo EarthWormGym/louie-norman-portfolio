@@ -5,14 +5,15 @@
     <div class="top-right">Contact</div>
   </div>
 
-  <div class="button-list">
-    <p>From Stone to Stone</p>
-    <p>Bangers</p>
-    <p>Jimmy and Jill</p>
-    <p>UnDance</p>
-    <p>Rio Ferdinand Foundation</p>
-    <p>Interface</p>
+  <div class="sidebar">
+    <ul>
+      <li *ngFor="let project of projects">
+        <a routerLink="/{{ project.link }}" class="project-link">
+          {{ project.name }}
+        </a>
+      </li>
+    </ul>
   </div>
-
+  
 </div>
   

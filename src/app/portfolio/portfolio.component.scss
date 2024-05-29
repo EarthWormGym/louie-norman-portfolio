@@ -1,4 +1,7 @@
 .portfolio-container {
+  display: flex;
+  flex-direction: column;
+  font-family: sans-serif;
 
   .header {
     display: flex;
@@ -6,13 +9,28 @@
     padding: 20px;
   }
 
-  .button-list {
-    display: flex;
-    flex-direction: column;
+  .sidebar {
+    width: 300px;
+    padding: 20px;
+    margin-left: 110px;
+    margin-top: 200px;
   }
-  
-  .button-list button {
-    width: 100%; 
-    margin-bottom: 4px; 
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .project-link {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+  }
+
+  .project-link:hover {
+    transform: translateX(-5px);
+    background-color: #e0e0e0;
   }
 }
