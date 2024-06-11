@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, OnInit, inject } from '@angular/core';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-portfolio',
@@ -12,7 +13,8 @@ import { RouterModule } from '@angular/router';
   templateUrl: './portfolio.component.html',
   styleUrl: './portfolio.component.scss'
 })
-export class PortfolioComponent {
+export class PortfolioComponent implements OnInit {
+
   projects = [
     { name: 'From Stone to Stone', link: 'from-stone-to-stone' },
     { name: 'Bangers', link: 'bangers' },
@@ -20,4 +22,21 @@ export class PortfolioComponent {
     { name: 'Rio Ferdinand Foundation', link: 'rio-ferdinand-foundation' },
     { name: 'Interface', link: 'interface' },
   ];
+
+  private router = inject(Router);
+
+  ngOnInit() {
+    this.router.events
+      .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        if (event.url.includes('#')) {
+          const elementId = event.url.split('#')[1];
+          const element = document.getElementById(elementId);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      });
+  }
+
 }

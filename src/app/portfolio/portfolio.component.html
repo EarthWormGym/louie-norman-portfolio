@@ -1,14 +1,41 @@
 <div class="portfolio-container">
   <div class="header">
-    <div class="top-left">LouieNorman.Studio</div>
-    <div class="top-center">About</div>
-    <div class="top-right">Contact</div>
+    <div class="top-left">
+      <a routerLink="/louienormanstudio">LouieNorman.Studio</a>
+    </div>
+    <div class="top-center">
+      <a routerLink="/about">About</a>
+    </div>
+    <div class="top-right">
+      <a routerLink="/contact">Contact</a>
+    </div>
+  </div>
+
+  <div class="portfolio-container">
+    <section id="home">
+      
+    </section>
+    <section id="from-stone-to-stone">
+      
+    </section>
+    <section id="bangers">
+      
+    </section>
+    <section id="jimmy-and-jill-undance">
+      
+    </section>
+    <section id="rio-ferdinand-foundation">
+      
+    </section>
+    <section id="interface">
+      
+    </section>
   </div>
 
   <div class="sidebar">
     <ul>
       <li *ngFor="let project of projects">
-        <a routerLink="/{{ project.link }}" class="project-link">
+        <a [routerLink]="['/']" fragment="{{ project.link }}" class="project-link">
           {{ project.name }}
         </a>
       </li>
