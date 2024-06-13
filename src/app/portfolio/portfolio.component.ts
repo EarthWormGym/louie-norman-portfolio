@@ -2,16 +2,18 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter } from 'rxjs';
+import { HeaderComponent } from './header/header.component';
 
 @Component({
   selector: 'app-portfolio',
+  templateUrl: './portfolio.component.html',
+  styleUrl: './portfolio.component.scss',
   standalone: true,
   imports: [
     CommonModule,
-    RouterModule
-  ],
-  templateUrl: './portfolio.component.html',
-  styleUrl: './portfolio.component.scss'
+    RouterModule,
+    HeaderComponent
+  ]
 })
 export class PortfolioComponent implements OnInit {
 
