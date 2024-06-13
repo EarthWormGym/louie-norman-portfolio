@@ -20,7 +20,8 @@ export class PortfolioComponent implements OnInit {
   projects = [
     { name: 'From Stone to Stone', link: 'from-stone-to-stone' },
     { name: 'Bangers', link: 'bangers' },
-    { name: 'Jimmy and Jill UnDance', link: 'jimmy-and-jill-undance' },
+    { name: 'Jimmy and Jill', link: 'jimmy-and-jill' },
+    { name: 'UnDance', link: 'undance' },
     { name: 'Rio Ferdinand Foundation', link: 'rio-ferdinand-foundation' },
     { name: 'Interface', link: 'interface' },
   ];
