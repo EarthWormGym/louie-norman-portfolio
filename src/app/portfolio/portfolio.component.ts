@@ -17,6 +17,9 @@ import { HeaderComponent } from './header/header.component';
 })
 export class PortfolioComponent implements OnInit {
 
+  currentImageIndex = 0;
+  stoneImages: string[] = Array.from({length: 6}, (_, i) => `assets/from-stone-to-stone/stoneFrame${i + 1}.png`);
+
   projects = [
     { name: 'From Stone to Stone', link: 'from-stone-to-stone' },
     { name: 'Bangers', link: 'bangers' },
@@ -40,6 +43,10 @@ export class PortfolioComponent implements OnInit {
           }
         }
       });
+  }
+
+  changeBackground(): void {
+    this.currentImageIndex = (this.currentImageIndex + 1) % this.stoneImages.length;
   }
 
 }
