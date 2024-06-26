@@ -3,22 +3,24 @@ import { Component, OnInit, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter } from 'rxjs';
 import { HeaderComponent } from './header/header.component';
+import { ImageService } from './image-service.service';
 
 @Component({
   selector: 'app-portfolio',
   templateUrl: './portfolio.component.html',
-  styleUrl: './portfolio.component.scss',
+  styleUrls: ['./portfolio.component.scss'],
   standalone: true,
   imports: [
     CommonModule,
     RouterModule,
     HeaderComponent
-  ]
+  ],
+  providers: [ImageService]
 })
 export class PortfolioComponent implements OnInit {
-
   currentImageIndex = 0;
-  stoneImages: string[] = Array.from({length: 6}, (_, i) => `assets/from-stone-to-stone/stoneFrame${i + 1}.png`);
+  stoneImages: string[] = [];
+  baseUrl: string = 'http://localhost:3000/assets/from-stone-to-stone';
 
   projects = [
     { name: 'From Stone to Stone', link: 'from-stone-to-stone' },
@@ -30,6 +32,7 @@ export class PortfolioComponent implements OnInit {
   ];
 
   private router = inject(Router);
+  private imageService = inject(ImageService);
 
   ngOnInit() {
     this.router.events
@@ -43,10 +46,18 @@ export class PortfolioComponent implements OnInit {
           }
         }
       });
+
+    this.imageService.getImages().subscribe(images => {
+      this.stoneImages = images.map(image => `${this.baseUrl}/${image}`);
+      console.log(this.stoneImages);
+    });
   }
 
   changeBackground(): void {
     this.currentImageIndex = (this.currentImageIndex + 1) % this.stoneImages.length;
   }
 
+  getBackgroundImage(): string {
+    return `url(${this.stoneImages[this.currentImageIndex]})`;
+  }
 }

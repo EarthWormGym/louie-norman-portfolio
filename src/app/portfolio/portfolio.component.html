@@ -1,4 +1,7 @@
-<div class="portfolio-container" (click)="changeBackground()" [style.backgroundImage]="'url(' + stoneImages[currentImageIndex] + ')'">
+<div class="portfolio-container" 
+  (click)="changeBackground()" 
+  [style.backgroundImage]="getBackgroundImage()">
+
   <app-header></app-header>
 
   <section id="home">
