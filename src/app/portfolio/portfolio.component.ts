@@ -19,8 +19,8 @@ import { ImageService } from './image-service.service';
 })
 export class PortfolioComponent implements OnInit {
   currentImageIndex = 0;
-  stoneImages: string[] = [];
-  baseUrl: string = 'http://localhost:3000/assets/from-stone-to-stone';
+  images: string[] = [];
+  baseUrl: string = 'http://localhost:3000/assets/';
 
   projects = [
     { name: 'From Stone to Stone', link: 'from-stone-to-stone' },
@@ -34,7 +34,24 @@ export class PortfolioComponent implements OnInit {
   private router = inject(Router);
   private imageService = inject(ImageService);
 
+  // Add to PortfolioComponent
   ngOnInit() {
+    this.preloadImages();
+    this.setupRouterEvents();
+  }
+
+  preloadImages() {
+    this.imageService.getAllImages().subscribe(paths => {
+      this.images = paths.map(path => this.baseUrl + path);
+      // Preload images into browser cache
+      this.images.forEach(imagePath => {
+        const img = new Image();
+        img.src = imagePath;
+      });
+    });
+  }
+
+  setupRouterEvents() {
     this.router.events
       .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
@@ -46,18 +63,13 @@ export class PortfolioComponent implements OnInit {
           }
         }
       });
-
-    this.imageService.getImages().subscribe(images => {
-      this.stoneImages = images.map(image => `${this.baseUrl}/${image}`);
-      console.log(this.stoneImages);
-    });
   }
 
   changeBackground(): void {
-    this.currentImageIndex = (this.currentImageIndex + 1) % this.stoneImages.length;
+    this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length;
   }
 
   getBackgroundImage(): string {
-    return `url(${this.stoneImages[this.currentImageIndex]})`;
+    return `url(${this.images[this.currentImageIndex]})`;
   }
 }

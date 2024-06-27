@@ -10,7 +10,8 @@ export class ImageService {
 
   private http = inject(HttpClient)
 
-  getImages(): Observable<string[]> {
-    return this.http.get<string[]>(this.apiUrl);
+  // In your ImageService
+  getAllImages(): Observable<string[]> {
+    return this.http.get<string[]>('http://localhost:3000/api/images');
   }
 }

@@ -12,13 +12,28 @@ app.use(cors());
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 app.get('/api/images', (req, res) => {
-  const imagesDir = path.join(__dirname, 'assets/from-stone-to-stone');
-  fs.readdir(imagesDir, (err, files) => {
+  const assetsDir = path.join(__dirname, 'assets');
+  fs.readdir(assetsDir, (err, folders) => {
     if (err) {
-      return res.status(500).send('Unable to scan directory');
+      return res.status(500).send('Unable to scan assets directory');
     }
-    const images = files.filter(file => /\.(jpg|jpeg|png|gif)$/.test(file));
-    res.json(images);
+    let images = [];
+    let foldersProcessed = 0;
+    folders.forEach(folder => {
+      const folderPath = path.join(assetsDir, folder);
+      fs.readdir(folderPath, (err, files) => {
+        if (err) {
+          console.log(`Unable to scan directory: ${folderPath}`);
+        } else {
+          const folderImages = files.filter(file => /\.(jpg|jpeg|png|gif)$/.test(file)).map(file => path.join(folder, file));
+          images = images.concat(folderImages);
+        }
+        foldersProcessed++;
+        if (foldersProcessed === folders.length) {
+          res.json(images);
+        }
+      });
+    });
   });
 });
 
