@@ -4,32 +4,17 @@
 
   <app-header></app-header>
 
-  <section id="home">
-    
-  </section>
-  <section id="from-stone-to-stone">
-    
-  </section>
-  <section id="bangers">
-    
-  </section>
-  <section id="jimmy-and-jill-undance">
-    
-  </section>
-  <section id="rio-ferdinand-foundation">
-    
-  </section>
-  <section id="interface">
-    
-  </section>
-
   <div class="sidebar">
     <ul>
-      <li *ngFor="let project of projects">
-        <a [routerLink]="['/']" fragment="{{ project.link }}" class="project-link">
-          {{ project.name }}
-        </a>
-      </li>
+      @for (project of projects; track project) {
+        <li>
+          <a class="project-link"
+            [routerLink]="[]" 
+            [fragment]="project.link">
+            {{ project.name }}
+          </a>
+        </li>
+      }
     </ul>
   </div>
   

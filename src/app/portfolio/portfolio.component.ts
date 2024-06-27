@@ -35,12 +35,12 @@ export class PortfolioComponent implements OnInit {
   private imageService = inject(ImageService);
 
   // Add to PortfolioComponent
-  ngOnInit() {
+  ngOnInit(): void {
     this.preloadImages();
     this.setupRouterEvents();
   }
 
-  preloadImages() {
+  preloadImages(): void {
     this.imageService.getAllImages().subscribe(paths => {
       this.images = paths.map(path => this.baseUrl + path);
       // Preload images into browser cache
@@ -51,18 +51,25 @@ export class PortfolioComponent implements OnInit {
     });
   }
 
-  setupRouterEvents() {
+  setupRouterEvents(): void {
     this.router.events
       .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         if (event.url.includes('#')) {
-          const elementId = event.url.split('#')[1];
-          const element = document.getElementById(elementId);
-          if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-          }
+          const projectId = event.url.split('#')[1];
+          this.selectProject(projectId);
         }
       });
+  }
+  
+  selectProject(projectId: string): void {
+    // Assuming your images array or the way you fetch images allows you to associate each image with a project ID
+    const projectImageIndex = this.images.findIndex(imagePath => imagePath.includes(projectId));
+    if (projectImageIndex !== -1) {
+      this.currentImageIndex = projectImageIndex;
+      // Optionally, update the background immediately
+      this.changeBackground();
+    }
   }
 
   changeBackground(): void {

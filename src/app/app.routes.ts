@@ -4,7 +4,7 @@ import { AboutComponent } from './portfolio/about/about.component';
 import { ContactComponent } from './portfolio/contact/contact.component';
 
 export const routes: Routes = [
-    { path: '', redirectTo: 'home', pathMatch: 'full' },
-    { path: 'home', component: PortfolioComponent },
+    { path: '', redirectTo: 'louieNormanStudio', pathMatch: 'full' },
+    { path: 'louieNormanStudio', component: PortfolioComponent },
     { path: 'about', component: AboutComponent },
     { path: 'contact', component: ContactComponent }];
