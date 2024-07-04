@@ -6,11 +6,17 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ImageService {
-  private apiUrl = '/api/images';
+  private baseUrl = 'http://localhost:3000/api/';
+  private portfolioUrl = 'portfolio/images';
+  private aboutUrl = 'about/images';
 
   private http = inject(HttpClient)
 
-  getAllImages(): Observable<string[]> {
-    return this.http.get<string[]>('http://localhost:3000/api/images');
+  getAllPortfolioImages(): Observable<string[]> {
+    return this.http.get<string[]>(this.baseUrl + this.portfolioUrl);
+  }
+
+  getAllAboutImages(): Observable<string[]> {
+    return this.http.get<string[]>(this.baseUrl + this.aboutUrl);
   }
 }

@@ -20,13 +20,12 @@ import { ImageService } from './image-service.service';
 export class PortfolioComponent implements OnInit {
   currentImageIndex = 0;
   images: string[] = [];
-  baseUrl: string = 'http://localhost:3000/assets/';
 
   projects = [
     { name: 'From Stone to Stone', link: 'from-stone-to-stone' },
     { name: 'Bangers', link: 'bangers' },
     { name: 'Jimmy and Jill', link: 'jimmy-and-jill' },
-    { name: 'UnDance', link: 'undance' },
+    { name: 'UnDance', link: 'un-dance' },
     { name: 'Rio Ferdinand Foundation', link: 'rio-ferdinand-foundation' },
     { name: 'Interface', link: 'interface' },
   ];
@@ -41,8 +40,8 @@ export class PortfolioComponent implements OnInit {
   }
 
   preloadImages(): void {
-    this.imageService.getAllImages().subscribe(paths => {
-      this.images = paths.map(path => this.baseUrl + path);
+    this.imageService.getAllPortfolioImages().subscribe(paths => {
+      this.images = paths.map(path => path);
       // Preload images into browser cache
       this.images.forEach(imagePath => {
         const img = new Image();

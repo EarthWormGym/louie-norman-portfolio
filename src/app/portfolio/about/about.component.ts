@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../header/header.component';
+import { ImageService } from '../image-service.service';
 
 @Component({
   selector: 'app-about',
@@ -13,12 +14,18 @@ import { HeaderComponent } from '../header/header.component';
   templateUrl: './about.component.html',
   styleUrl: './about.component.scss'
 })
-export class AboutComponent {
-  aboutItems = [
+export class AboutComponent implements OnInit {
+  currentImageIndex = 0;
+  images: string[] = [];
+  
+  educationItems = [
     'Education',
     'Kingston School of Art',
     'Foundation Diploma (2018-19) - Distinction',
-    'Graphic design (BA) (2019-2023) - 1st Class',
+    'Graphic design (BA) (2019-2023) - 1st Class'
+  ];
+
+  skillsItems = [
     'Skills',
     'Camera Operator',
     'Adobe InDesign',
@@ -28,4 +35,17 @@ export class AboutComponent {
     'Adobe Lightroom/Classic',
     'DaVinci Resolve'
   ];
+
+  private imageService = inject(ImageService);
+
+  ngOnInit(): void {
+    this.imageService.getAllAboutImages().subscribe(paths => {
+      this.images = paths.map(path => path);
+      this.images.forEach(imagePath => {
+        const img = new Image();
+        img.src = imagePath;
+      });
+    });
+  }
+
 }

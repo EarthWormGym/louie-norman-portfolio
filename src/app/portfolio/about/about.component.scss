@@ -6,9 +6,10 @@
     }
 
     .sidebar {
-        width: 300px;
-        padding: 20px;
-        margin-left: 110px;
-        margin-top: 200px;
+        width: 500px;
+        ul {
+            list-style-type: none;
+        }
     }
+
 }

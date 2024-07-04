@@ -11,8 +11,8 @@ app.use(cors());
 // Serve static files from the "assets" directory
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
-app.get('/api/images', (req, res) => {
-  const assetsDir = path.join(__dirname, 'assets');
+app.get('/api/portfolio/images', (req, res) => {
+  const assetsDir = path.join(__dirname, 'assets', 'portfolio');
   fs.readdir(assetsDir, (err, folders) => {
     if (err) {
       return res.status(500).send('Unable to scan assets directory');
@@ -25,12 +25,13 @@ app.get('/api/images', (req, res) => {
         if (err) {
           console.log(`Unable to scan directory: ${folderPath}`);
         } else {
-          const folderImages = files.filter(file => /\.(jpg|jpeg|png|gif)$/.test(file)).map(file => path.join(folder, file));
+          const folderImages = files.filter(file => /\.(jpg|jpeg|png|gif)$/.test(file)).map(file => path.join('assets', 'portfolio', folder, file));
           images = images.concat(folderImages);
         }
         foldersProcessed++;
         if (foldersProcessed === folders.length) {
-          res.json(images);
+          const imageUrls = images.map(image => `http://localhost:3000/${image.replace(/\\/g, '/')}`);
+          res.json(imageUrls);
         }
       });
     });

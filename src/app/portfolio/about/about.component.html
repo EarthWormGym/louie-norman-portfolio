@@ -3,7 +3,12 @@
 
   <div class="sidebar">
     <ul>
-      @for (item of aboutItems; track $index) {
+      @for (item of educationItems; track item) {
+        <li>{{ item }}</li>
+      }
+    </ul>
+    <ul>
+      @for (item of skillsItems; track item) {
         <li>{{ item }}</li>
       }
     </ul>
