@@ -62,12 +62,9 @@ export class PortfolioComponent implements OnInit {
   }
   
   selectProject(projectId: string): void {
-    // Assuming your images array or the way you fetch images allows you to associate each image with a project ID
     const projectImageIndex = this.images.findIndex(imagePath => imagePath.includes(projectId));
     if (projectImageIndex !== -1) {
-      this.currentImageIndex = projectImageIndex;
-      // Optionally, update the background immediately
-      this.changeBackground();
+      this.currentImageIndex = projectImageIndex - 1;
     }
   }
 
