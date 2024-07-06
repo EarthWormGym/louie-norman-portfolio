@@ -38,6 +38,17 @@ app.get('/api/portfolio/images', (req, res) => {
   });
 });
 
+app.get('/api/about/images', (req, res) => {
+  const assetsDir = path.join(__dirname, 'assets', 'about');
+  fs.readdir(assetsDir, (err, files) => {
+    if (err) {
+      return res.status(500).send('Unable to scan assets directory');
+    }
+    const imageFiles = files.filter(file => /\.(jpg|jpeg|png|gif)$/.test(file)).map(file => `http://localhost:3000/assets/about/${file}`);
+    res.json(imageFiles);
+  });
+});
+
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });

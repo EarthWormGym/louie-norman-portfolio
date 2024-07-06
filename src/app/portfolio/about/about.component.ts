@@ -48,4 +48,12 @@ export class AboutComponent implements OnInit {
     });
   }
 
+  changeBackground(): void {
+    this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length;
+  }
+
+  getBackgroundImage(): string {
+    return `url(${this.images[this.currentImageIndex]})`;
+  }
+
 }
