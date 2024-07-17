@@ -18,7 +18,7 @@ export class MediaService {
       map(paths => paths.map(path => {
         const media = new MediaModel();
         media.path = path;
-        if (path.includes('video')) {
+        if (path.includes('mp4')) {
           media.type = 'video';
         } else {
           media.type = 'image';

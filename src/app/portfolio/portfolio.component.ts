@@ -21,7 +21,10 @@ import { MediaModel } from './model/media-model';
   ]
 })
 export class PortfolioComponent implements OnInit {
+
+  isLoading = true;
   currentImageIndex = 0;
+  currentMedia: MediaModel = new MediaModel();
   allMedia: MediaModel[] = [];
 
   projects = [
@@ -43,7 +46,9 @@ export class PortfolioComponent implements OnInit {
 
   preloadImages(): void {
     this.imageService.getAllPortfolioMedia().subscribe(media => {
+      this.currentMedia = media[0];
       this.allMedia = media;
+      this.isLoading = false;
     });
   }
 
@@ -67,9 +72,13 @@ export class PortfolioComponent implements OnInit {
 
   changeBackground(): void {
     this.currentImageIndex = (this.currentImageIndex + 1) % this.allMedia.length;
+    this.currentMedia = this.allMedia[this.currentImageIndex];
   }
 
   getBackgroundImage(): string {
-    return `url(${this.allMedia[this.currentImageIndex].path})`;
+    if (this.allMedia[this.currentImageIndex].type !== 'video') {
+      return `url(${this.allMedia[this.currentImageIndex].path})`;
+    }
+    return '';
   }
 }

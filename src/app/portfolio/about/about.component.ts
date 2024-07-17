@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../header/header.component';
-import { ImageService } from '../media-service.service';
+import { MediaService } from '../media-service.service';
 
 @Component({
   selector: 'app-about',
@@ -36,10 +36,10 @@ export class AboutComponent implements OnInit {
     'DaVinci Resolve'
   ];
 
-  private imageService = inject(ImageService);
+  private mediaService = inject(MediaService);
 
   ngOnInit(): void {
-    this.imageService.getAllAboutImages().subscribe(paths => {
+    this.mediaService.getAllAboutImages().subscribe(paths => {
       this.images = paths.map(path => path);
       this.images.forEach(imagePath => {
         const img = new Image();

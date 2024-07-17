@@ -1,22 +1,28 @@
-<div class="portfolio-container" 
-  (click)="changeBackground()" 
-  [style.backgroundImage]="getBackgroundImage()">
+@if (!isLoading) {
+  <div class="portfolio-container" 
+    (click)="changeBackground()" 
+    [style.backgroundImage]="getBackgroundImage()">
 
-  <app-header></app-header>
+    @if (currentMedia.type === 'video') {
+      <video class="background-video" [src]="currentMedia.path" autoplay loop></video>
+    }
 
-  <div class="sidebar">
-    <ul>
-      @for (project of projects; track project) {
-        <li>
-          <a class="project-link"
-            [routerLink]="[]" 
-            [fragment]="project.link">
-            {{ project.name }}
-          </a>
-        </li>
-      }
-    </ul>
+    <app-header></app-header>
+
+    <div class="sidebar">
+      <ul>
+        @for (project of projects; track project) {
+          <li>
+            <a class="project-link"
+              [routerLink]="[]" 
+              [fragment]="project.link">
+              {{ project.name }}
+            </a>
+          </li>
+        }
+      </ul>
+    </div>
+    
   </div>
-  
-</div>
+}
   
