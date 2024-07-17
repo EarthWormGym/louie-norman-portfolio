@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../header/header.component';
-import { ImageService } from '../image-service.service';
+import { ImageService } from '../media-service.service';
 
 @Component({
   selector: 'app-about',

@@ -3,7 +3,8 @@ import { Component, OnInit, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter } from 'rxjs';
 import { HeaderComponent } from './header/header.component';
-import { ImageService } from './image-service.service';
+import { MediaService } from './media-service.service';
+import { MediaModel } from './model/media-model';
 
 @Component({
   selector: 'app-portfolio',
@@ -15,11 +16,13 @@ import { ImageService } from './image-service.service';
     RouterModule,
     HeaderComponent
   ],
-  providers: [ImageService]
+  providers: [
+    MediaService
+  ]
 })
 export class PortfolioComponent implements OnInit {
   currentImageIndex = 0;
-  images: string[] = [];
+  allMedia: MediaModel[] = [];
 
   projects = [
     { name: 'From Stone to Stone', link: 'from-stone-to-stone' },
@@ -31,22 +34,16 @@ export class PortfolioComponent implements OnInit {
   ];
 
   private router = inject(Router);
-  private imageService = inject(ImageService);
+  private imageService = inject(MediaService);
 
-  // Add to PortfolioComponent
   ngOnInit(): void {
     this.preloadImages();
     this.setupRouterEvents();
   }
 
   preloadImages(): void {
-    this.imageService.getAllPortfolioImages().subscribe(paths => {
-      this.images = paths.map(path => path);
-      // Preload images into browser cache
-      this.images.forEach(imagePath => {
-        const img = new Image();
-        img.src = imagePath;
-      });
+    this.imageService.getAllPortfolioMedia().subscribe(media => {
+      this.allMedia = media;
     });
   }
 
@@ -62,17 +59,17 @@ export class PortfolioComponent implements OnInit {
   }
   
   selectProject(projectId: string): void {
-    const projectImageIndex = this.images.findIndex(imagePath => imagePath.includes(projectId));
+    const projectImageIndex = this.allMedia.findIndex(media => media.path.includes(projectId));
     if (projectImageIndex !== -1) {
       this.currentImageIndex = projectImageIndex - 1;
     }
   }
 
   changeBackground(): void {
-    this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length;
+    this.currentImageIndex = (this.currentImageIndex + 1) % this.allMedia.length;
   }
 
   getBackgroundImage(): string {
-    return `url(${this.images[this.currentImageIndex]})`;
+    return `url(${this.allMedia[this.currentImageIndex].path})`;
   }
 }
