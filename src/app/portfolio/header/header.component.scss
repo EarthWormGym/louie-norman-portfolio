@@ -1,9 +1,27 @@
 .header-container {
     display: flex;
     justify-content: space-between;
-    padding: 20px;
+    align-items: center;
+    padding: 16px 20px;
     a {
         color: black;
         text-decoration: none;
     }
+}
+
+.header-container > div {
+    flex: 1;
+    text-align: center;
+}
+
+.top-left, .top-right {
+    flex: 0;
+}
+
+.top-left {
+    text-align: left !important;
+}
+
+.top-right {
+    text-align: right !important;
 }

@@ -3,7 +3,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter } from 'rxjs';
 import { HeaderComponent } from './header/header.component';
-import { MediaService } from './media-service.service';
+import { MediaService } from './media.service';
 import { MediaModel } from './model/media-model';
 
 @Component({
