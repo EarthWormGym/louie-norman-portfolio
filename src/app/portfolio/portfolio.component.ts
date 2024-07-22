@@ -25,9 +25,10 @@ export class PortfolioComponent implements OnInit {
   isLoading = true;
   currentImageIndex = 0;
   currentMedia: MediaModel = new MediaModel();
-  allMedia: MediaModel[] = [];
+  currentProject = '';
+  projects: { [key: string]: MediaModel[] } = {};
 
-  projects = [
+  projectNames = [
     { name: 'From Stone to Stone', link: 'from-stone-to-stone' },
     { name: 'Bangers', link: 'bangers' },
     { name: 'Jimmy and Jill', link: 'jimmy-and-jill' },
@@ -40,6 +41,7 @@ export class PortfolioComponent implements OnInit {
   private imageService = inject(MediaService);
 
   ngOnInit(): void {
+    this.router.navigateByUrl('#from-stone-to-stone');
     this.preloadImages();
     this.setupRouterEvents();
   }
@@ -47,7 +49,7 @@ export class PortfolioComponent implements OnInit {
   preloadImages(): void {
     this.imageService.getAllPortfolioMedia().subscribe(media => {
       this.currentMedia = media[0];
-      this.allMedia = media;
+      this.projects = this.groupMediaByProject(media);
       this.isLoading = false;
     });
   }
@@ -64,21 +66,34 @@ export class PortfolioComponent implements OnInit {
   }
   
   selectProject(projectId: string): void {
-    const projectImageIndex = this.allMedia.findIndex(media => media.path.includes(projectId));
-    if (projectImageIndex !== -1) {
-      this.currentImageIndex = projectImageIndex - 1;
+    this.currentProject = projectId;
+    this.currentImageIndex = 0;
+    this.currentMedia = this.projects[projectId][0];
+  }
+
+  groupMediaByProject(mediaArray: MediaModel[]): { [key: string]: MediaModel[] } {
+    let groupedByProject: { [key: string]: MediaModel[] } = {};
+  
+    for (let media of mediaArray) {
+      if (!groupedByProject[media.project]) {
+        groupedByProject[media.project] = [];
+      }
+      groupedByProject[media.project].push(media);
     }
+  
+    return groupedByProject;
+  }
+
+  handleProjectClick(event: MouseEvent): void {
+    event.stopPropagation();
   }
 
   changeBackground(): void {
-    this.currentImageIndex = (this.currentImageIndex + 1) % this.allMedia.length;
-    this.currentMedia = this.allMedia[this.currentImageIndex];
+    this.currentImageIndex = (this.currentImageIndex + 1) % this.projects[this.currentProject].length;
+    this.currentMedia = this.projects[this.currentProject][this.currentImageIndex];
   }
 
   getBackgroundImage(): string {
-    if (this.allMedia[this.currentImageIndex].type !== 'video') {
-      return `url(${this.allMedia[this.currentImageIndex].path})`;
-    }
-    return '';
+    return this.projects[this.currentProject][this.currentImageIndex].type !== 'video' ? `url(${this.projects[this.currentProject][this.currentImageIndex].path})` : '';
   }
 }

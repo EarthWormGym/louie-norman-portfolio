@@ -23,7 +23,7 @@ export class MediaService {
         } else {
           media.type = 'image';
         }
-        media.project = '';
+        media.project = path.split('/')[5];
         return media;
       }))
     );
