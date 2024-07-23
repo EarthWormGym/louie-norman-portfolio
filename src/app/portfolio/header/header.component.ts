@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -13,5 +13,11 @@ import { RouterModule } from '@angular/router';
   ],
 })
 export class HeaderComponent {
+
+  darkMode = input<boolean>();
+
+  isDarkMode(): string {
+    return this.darkMode() ? 'dark-mode' : '';
+  }
 
 }

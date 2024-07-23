@@ -1,13 +1,15 @@
 @if (!isLoading) {
   <div class="portfolio-container" 
     (click)="changeBackground()" 
-    [style.backgroundImage]="getBackgroundImage()">
+    [style.backgroundImage]="getBackgroundImage()"
+    [ngClass]="isDarkMode()"
+    >
 
     @if (currentMedia.type === 'video') {
       <video class="background-video" [src]="currentMedia.path" autoplay loop></video>
     }
 
-    <app-header></app-header>
+    <app-header [darkMode]="darkMode"></app-header>
 
     <div class="sidebar">
       <ul>
@@ -16,7 +18,8 @@
             <a class="project-link"
               (click)="handleProjectClick($event)"
               [routerLink]="[]" 
-              [fragment]="project.link">
+              [fragment]="project.link"
+              [ngClass]="isDarkMode()">
               {{ project.name }}
             </a>
           </li>

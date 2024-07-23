@@ -4,14 +4,27 @@
     align-items: center;
     padding: 16px 20px;
     font-family: DMSansItalic, sans-serif;
-    a {
+    position: relative;
+    z-index: 2;
+}
+
+.navigation-link {
+    color: black;
+    text-decoration: none;
+    transition: transform 0.3s ease-in-out, background-color 0.3s ease, color 0.3s ease;
+    &:hover {
+        background-color: black;
+        color: white;
+    }
+}
+
+.navigation-link.dark-mode {
+    color: white;
+    text-decoration: none;
+    transition: transform 0.3s ease-in-out, background-color 0.3s ease, color 0.3s ease;
+    &:hover {
+        background-color: white;
         color: black;
-        text-decoration: none;
-        transition: transform 0.3s ease-in-out, background-color 0.3s ease, color 0.3s ease;
-        &:hover {
-            background-color: black;
-            color: white;
-        }
     }
 }
 

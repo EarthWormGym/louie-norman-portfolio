@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter } from 'rxjs';
 import { HeaderComponent } from './header/header.component';
@@ -22,7 +22,11 @@ import { MediaModel } from './model/media-model';
 })
 export class PortfolioComponent implements OnInit {
 
+  darkMode = false;
+  videoDarkMode = false;
+  projectDarkMode = false;
   isLoading = true;
+
   currentImageIndex = 0;
   currentMedia: MediaModel = new MediaModel();
   currentProject = '';
@@ -54,6 +58,17 @@ export class PortfolioComponent implements OnInit {
     });
   }
 
+  groupMediaByProject(mediaArray: MediaModel[]): { [key: string]: MediaModel[] } {
+    let groupedByProject: { [key: string]: MediaModel[] } = {};
+    for (let media of mediaArray) {
+      if (!groupedByProject[media.project]) {
+        groupedByProject[media.project] = [];
+      }
+      groupedByProject[media.project].push(media);
+    }
+    return groupedByProject;
+  }
+
   setupRouterEvents(): void {
     this.router.events
       .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
@@ -69,23 +84,21 @@ export class PortfolioComponent implements OnInit {
     this.currentProject = projectId;
     this.currentImageIndex = 0;
     this.currentMedia = this.projects[projectId][0];
-  }
-
-  groupMediaByProject(mediaArray: MediaModel[]): { [key: string]: MediaModel[] } {
-    let groupedByProject: { [key: string]: MediaModel[] } = {};
-  
-    for (let media of mediaArray) {
-      if (!groupedByProject[media.project]) {
-        groupedByProject[media.project] = [];
-      }
-      groupedByProject[media.project].push(media);
+    if (this.currentProject === 'rio-ferdinand-foundation' || this.currentProject === 'un-dance') {
+      this.projectDarkMode = true;
+    } else {
+      this.projectDarkMode = false;
     }
-  
-    return groupedByProject;
   }
 
-  handleProjectClick(event: MouseEvent): void {
-    event.stopPropagation();
+  getBackgroundImage(): string {
+    if (this.projects[this.currentProject][this.currentImageIndex].type !== 'video') {
+      this.videoDarkMode = false;
+      return `url(${this.projects[this.currentProject][this.currentImageIndex].path})`;
+    } else {
+      this.videoDarkMode = true;
+      return '';
+    }
   }
 
   changeBackground(): void {
@@ -93,7 +106,18 @@ export class PortfolioComponent implements OnInit {
     this.currentMedia = this.projects[this.currentProject][this.currentImageIndex];
   }
 
-  getBackgroundImage(): string {
-    return this.projects[this.currentProject][this.currentImageIndex].type !== 'video' ? `url(${this.projects[this.currentProject][this.currentImageIndex].path})` : '';
+  isDarkMode(): string {
+    if (this.videoDarkMode || this.projectDarkMode) {
+      this.darkMode = true;
+      return 'dark-mode';
+    } else {
+      this.darkMode = false;
+      return '';
+    };
   }
+
+  handleProjectClick(event: MouseEvent): void {
+    event.stopPropagation();
+  }
+
 }
