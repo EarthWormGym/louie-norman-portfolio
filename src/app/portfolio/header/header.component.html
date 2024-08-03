@@ -1,11 +1,23 @@
 <div class="header-container">
-    <div class="top-left">
-      <a class="navigation-link" [ngClass]="isDarkMode()" routerLink="/louieNormanStudio">LouieNorman.Studio</a>
-    </div>
-    <div class="top-center">
-      <a class="navigation-link" [ngClass]="isDarkMode()" routerLink="/about">About</a>
-    </div>
-    <div class="top-right">
-      <a class="navigation-link" [ngClass]="isDarkMode()" routerLink="/contact">Contact</a>
-    </div>
+  <div class="top-left">
+    <a class="navigation-link" 
+       [ngClass]="{'dark-mode': isDarkMode(), 'selected': isActive('/louieNormanStudio')}" 
+       routerLink="/louieNormanStudio">
+      LouieNorman.Studio
+    </a>
+  </div>
+  <div class="top-center">
+    <a class="navigation-link" 
+       [ngClass]="{'dark-mode': isDarkMode(), 'selected': isActive('/about')}" 
+       routerLink="/about">
+      About
+    </a>
+  </div>
+  <div class="top-right">
+    <a class="navigation-link" 
+       [ngClass]="{'dark-mode': isDarkMode(), 'selected': isActive('/contact')}" 
+       routerLink="/contact">
+      Contact
+    </a>
+  </div>
 </div>

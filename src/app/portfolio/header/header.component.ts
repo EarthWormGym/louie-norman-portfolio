@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, input } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, inject, input, OnInit } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -12,12 +13,29 @@ import { RouterModule } from '@angular/router';
     RouterModule,
   ],
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
 
   darkMode = input<boolean>();
+  currentRoute = '';
+
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
+  ngOnInit(): void {
+    const currentUrl = this.router.url;
+    if (currentUrl.includes('#')) {
+      this.currentRoute = currentUrl.split('#')[0];
+    } else {
+      this.currentRoute = currentUrl;
+    }
+    console.log(this.currentRoute);
+  }
+
+  isActive(route: string): boolean {
+    return this.currentRoute === route;
+  }
 
   isDarkMode(): string {
     return this.darkMode() ? 'dark-mode' : '';
   }
-
 }

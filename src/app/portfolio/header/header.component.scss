@@ -12,7 +12,7 @@
     color: black;
     text-decoration: none;
     transition: transform 0.3s ease-in-out, background-color 0.3s ease, color 0.3s ease;
-    &:hover {
+    &:hover, &.selected {
         background-color: black;
         color: white;
     }
@@ -22,7 +22,7 @@
     color: white;
     text-decoration: none;
     transition: transform 0.3s ease-in-out, background-color 0.3s ease, color 0.3s ease;
-    &:hover {
+    &:hover, &.selected {
         background-color: white;
         color: black;
     }
