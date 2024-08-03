@@ -9,7 +9,7 @@ export class TextService {
 
     textBoxes: TextModel[] = [
         { 
-            name: 'stoneFrame2.pdf', 
+            name: 'stoneFrame3.pdf', 
             text: 'Richard Long is both an artist and a hiker. Whilst walking, he crafts uncomplicated sculptures' +
                   ' in distant locations. These pieces serve as subtle indications of his time spent there.' +
                   ' Knowing that in time the land will take his sculptures back.\n\n' +
