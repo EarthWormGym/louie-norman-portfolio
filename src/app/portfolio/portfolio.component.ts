@@ -3,8 +3,12 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter } from 'rxjs';
 import { HeaderComponent } from './header/header.component';
-import { MediaService } from './media.service';
+import { MediaService } from './services/media.service';
 import { MediaModel } from './model/media-model';
+import { MediaType } from './model/media-type';
+import { TextService } from './services/text.service';
+import { ProjectLinksModel } from './model/project-links-model';
+import { TextModel } from './model/text-model';
 
 @Component({
   selector: 'app-portfolio',
@@ -22,32 +26,32 @@ import { MediaModel } from './model/media-model';
 })
 export class PortfolioComponent implements OnInit {
 
+  protected readonly MediaType = MediaType;
+
   darkMode = false;
   videoDarkMode = false;
   projectDarkMode = false;
   isLoading = true;
 
-  currentImageIndex = 0;
+  currentMediaIndex = 0;
   currentMedia: MediaModel = new MediaModel();
   currentProject = '';
+  currentTextBox = '';
   projects: { [key: string]: MediaModel[] } = {};
 
-  projectNames = [
-    { name: 'From Stone to Stone', link: 'from-stone-to-stone' },
-    { name: 'Bangers', link: 'bangers' },
-    { name: 'Jimmy and Jill', link: 'jimmy-and-jill' },
-    { name: 'UnDance', link: 'un-dance' },
-    { name: 'Rio Ferdinand Foundation', link: 'rio-ferdinand-foundation' },
-    { name: 'Interface', link: 'interface' },
-  ];
+  projectLinks: ProjectLinksModel[] = [];
+  textBoxes: TextModel[] = [];
 
   private router = inject(Router);
   private imageService = inject(MediaService);
+  private textService = inject(TextService);
 
   ngOnInit(): void {
     this.router.navigateByUrl('#from-stone-to-stone');
     this.preloadImages();
     this.setupRouterEvents();
+    this.projectLinks = this.textService.projectLinks;
+    this.textBoxes = this.textService.textBoxes;
   }
 
   preloadImages(): void {
@@ -82,7 +86,7 @@ export class PortfolioComponent implements OnInit {
   
   selectProject(projectId: string): void {
     this.currentProject = projectId;
-    this.currentImageIndex = 0;
+    this.currentMediaIndex = 0;
     this.currentMedia = this.projects[projectId][0];
     if (this.currentProject === 'rio-ferdinand-foundation' || this.currentProject === 'un-dance') {
       this.projectDarkMode = true;
@@ -92,9 +96,18 @@ export class PortfolioComponent implements OnInit {
   }
 
   getBackgroundImage(): string {
-    if (this.projects[this.currentProject][this.currentImageIndex].type !== 'video') {
+    const currentProject = this.projects[this.currentProject];
+    if (currentProject[this.currentMediaIndex].type === MediaType.Image) {
       this.videoDarkMode = false;
-      return `url(${this.projects[this.currentProject][this.currentImageIndex].path})`;
+      return `url(${currentProject[this.currentMediaIndex].path})`;
+    } else if (currentProject[this.currentMediaIndex].type === MediaType.Pdf) {
+      const fileName = this.getFileName(currentProject[this.currentMediaIndex].path);
+      const textBox = this.textBoxes.find(box => box.name === fileName);
+      if (textBox) {
+        this.currentTextBox = textBox.text;
+      }
+      this.videoDarkMode = false;
+      return '';
     } else {
       this.videoDarkMode = true;
       return '';
@@ -102,8 +115,8 @@ export class PortfolioComponent implements OnInit {
   }
 
   changeBackground(): void {
-    this.currentImageIndex = (this.currentImageIndex + 1) % this.projects[this.currentProject].length;
-    this.currentMedia = this.projects[this.currentProject][this.currentImageIndex];
+    this.currentMediaIndex = (this.currentMediaIndex + 1) % this.projects[this.currentProject].length;
+    this.currentMedia = this.projects[this.currentProject][this.currentMediaIndex];
   }
 
   isDarkMode(): string {
@@ -118,6 +131,11 @@ export class PortfolioComponent implements OnInit {
 
   handleProjectClick(event: MouseEvent): void {
     event.stopPropagation();
+  }
+
+  private getFileName(path: string): string {
+    const segments = path.split('/');
+    return segments[segments.length - 1];
   }
 
 }

@@ -14,7 +14,7 @@ app.use('/assets', express.static(path.join(__dirname, 'assets')));
 const getImagesFromDir = async (dir) => {
   try {
     const files = await fs.readdir(dir);
-    return files.filter(file => /\.(jpg|jpeg|png|mp4)$/.test(file)).map(file => path.join(dir, file));
+    return files.filter(file => /\.(jpg|jpeg|png|mp4|pdf)$/.test(file)).map(file => path.join(dir, file));
   } catch (err) {
     console.error(`Unable to scan directory: ${dir}`, err);
     throw new Error('Unable to scan assets directory');
