@@ -1,0 +1,46 @@
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    font-family: DMSansItalic, sans-serif;
+    position: relative;
+    z-index: 2;
+}
+
+.navigation-link {
+    color: black;
+    text-decoration: none;
+    transition: transform 0.3s ease-in-out, background-color 0.3s ease, color 0.3s ease;
+    &:hover, &.selected {
+        background-color: black;
+        color: white;
+    }
+}
+
+.navigation-link.dark-mode {
+    color: white;
+    text-decoration: none;
+    transition: transform 0.3s ease-in-out, background-color 0.3s ease, color 0.3s ease;
+    &:hover, &.selected {
+        background-color: white;
+        color: black;
+    }
+}
+
+.header-container > div {
+    flex: 1;
+    text-align: center;
+}
+
+.top-left, .top-right {
+    flex: 0;
+}
+
+.top-left {
+    text-align: left !important;
+}
+
+.top-right {
+    text-align: right !important;
+}
