@@ -3,12 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { MediaModel } from '../model/media-model';
 import { MediaType } from '../model/media-type';
+import { environment } from '../../../environments/environment'; // Import environment
 
 @Injectable({
   providedIn: 'root'
 })
 export class MediaService {
-  private baseUrl = 'http://localhost:3000/api/';
+  private baseUrl = environment.baseUrl;
   private portfolioUrl = 'portfolio/images';
   private aboutUrl = 'about/images';
 
