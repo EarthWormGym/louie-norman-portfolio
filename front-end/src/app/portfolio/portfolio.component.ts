@@ -135,7 +135,9 @@ export class PortfolioComponent implements OnInit {
 
   private getFileName(path: string): string {
     const segments = path.split('/');
-    return segments[segments.length - 1];
+    const fileNameWithExtension = segments[segments.length - 1];
+    const fileName = fileNameWithExtension.split('.')[0];
+    return fileName;
   }
 
 }

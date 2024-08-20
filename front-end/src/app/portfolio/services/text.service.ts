@@ -9,7 +9,7 @@ export class TextService {
 
     textBoxes: TextModel[] = [
         { 
-            name: 'stoneFrame3.pdf', 
+            name: 'stoneFrame3', 
             text: 'Richard Long is both an artist and a hiker. Whilst walking, he crafts uncomplicated sculptures' +
                   ' in distant locations. These pieces serve as subtle indications of his time spent there.' +
                   ' Knowing that in time the land will take his sculptures back.\n\n' +
@@ -19,11 +19,11 @@ export class TextService {
                   ' reminder of his presence.' 
         },
         { 
-            name: 'bangersFrame1.pdf', 
+            name: 'bangersFrame1', 
             text: 'Coming Soon' 
         },
         { 
-            name: 'jandjFrame2.pdf', 
+            name: 'jandjFrame2', 
             text: 'Parkgate is on the Wirral Peninsula of Cheshire, a small village road that looks over North' +
                   ' Wales, separated by the salt marshes of The River Dee. My grandparents Jimmy and Jill' +
                   ' moved here in their early 20s and started their lives together here. When I was a young boy I' +
@@ -34,19 +34,19 @@ export class TextService {
                   ' community they had touched and the legacy Jimmy and Jill both left behind.' 
         },
         { 
-            name: 'undanceFrame2.pdf', 
+            name: 'undanceFrame2', 
             text: 'In collaboration with ‘Studio Wayne McGregor’ - The modern ballet studio, Undance was' +
                   ' created to encourage (non)dancers to engage in undancing through Interactive projection.' 
         },
         { 
-            name: 'rffFrame2.pdf', 
+            name: 'rffFrame2', 
             text: '15-5 is an archive to celebrate The Rio Ferdinand Foundation’s 10 year anniversary. The Rio' +
                   ' Ferdinand Foundation was founded in 2011 to help underprivileged kids get a fighting start' +
                   ' towards their future. For the archive we aimed to track their progression of their events to the' +
                   ' present day.' 
         },
         { 
-            name: 'interfaceFrame2.pdf', 
+            name: 'interfaceFrame2', 
             text: 'A study of the relationship between water and stone' 
         },
     ];

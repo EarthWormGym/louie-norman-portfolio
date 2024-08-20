@@ -1,56 +1,67 @@
 const express = require('express');
-const fs = require('fs').promises;
-const path = require('path');
 const cors = require('cors');
+const { S3Client, ListObjectsV2Command, GetObjectCommand } = require('@aws-sdk/client-s3');
+const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
+require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(cors());
 
-// Serve static files from the "assets" directory
-app.use('/assets', express.static(path.join(__dirname, 'assets')));
+const s3Client = new S3Client({
+  region: process.env.AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  },
+});
 
-const getImagesFromDir = async (dir) => {
-  try {
-    const files = await fs.readdir(dir);
-    return files.filter(file => /\.(jpg|jpeg|png|mp4|pdf)$/.test(file)).map(file => path.join(dir, file));
-  } catch (err) {
-    console.error(`Unable to scan directory: ${dir}`, err);
-    throw new Error('Unable to scan assets directory');
-  }
+const generateUrls = async (bucketName, files, region) => {
+  const signedUrls = await Promise.all(
+    files.map(async file => {
+      const command = new GetObjectCommand({
+        Bucket: bucketName,
+        Key: file,
+      });
+      const url = await getSignedUrl(s3Client, command, { expiresIn: 86400 });
+      return url;
+    })
+  );
+  return signedUrls;
 };
 
-const generateUrls = (baseUrl, files, rootDir) => {
-  return files.map(file => `${baseUrl}/${path.relative(rootDir, file).replace(/\\/g, '/')}`);
+const listS3Objects = async (bucketName, prefix) => {
+  try {
+    const command = new ListObjectsV2Command({
+      Bucket: bucketName,
+      Prefix: prefix,
+    });
+    const data = await s3Client.send(command);
+    if (!data.Contents) {
+      console.warn(`No contents found for bucket: ${bucketName}, prefix: ${prefix}`);
+      return [];
+    }
+    const files = data.Contents.map(item => item.Key);
+    return await generateUrls(bucketName, files, process.env.AWS_REGION);
+  } catch (error) {
+    console.error('Error listing S3 objects:', error);
+    return [];
+  }
 };
 
 app.get('/api/portfolio/images', async (req, res) => {
-  const assetsDir = path.join(__dirname, 'assets', 'portfolio');
-  try {
-    const folders = await fs.readdir(assetsDir);
-    let allImages = [];
-    for (const folder of folders) {
-      const folderPath = path.join(assetsDir, folder);
-      const images = await getImagesFromDir(folderPath);
-      allImages = allImages.concat(images);
-    }
-    const imageUrls = generateUrls(`http://localhost:${port}`, allImages, __dirname);
-    res.json(imageUrls);
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
+  const bucketName = process.env.AWS_BUCKET_NAME;
+  const prefix = 'assets/portfolio/';
+  const urls = await listS3Objects(bucketName, prefix);
+  res.json(urls);
 });
 
 app.get('/api/about/images', async (req, res) => {
-  const assetsDir = path.join(__dirname, 'assets', 'about');
-  try {
-    const files = await getImagesFromDir(assetsDir);
-    const imageUrls = generateUrls(`http://localhost:${port}`, files, __dirname);
-    res.json(imageUrls);
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
+  const bucketName = process.env.AWS_BUCKET_NAME;
+  const prefix = 'assets/about/';
+  const urls = await listS3Objects(bucketName, prefix);
+  res.json(urls);
 });
 
 app.listen(port, () => {
