@@ -9,6 +9,12 @@ const port = process.env.PORT || 3000;
 
 app.use(cors());
 
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/*', function(req, res) {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 const s3Client = new S3Client({
   region: process.env.AWS_REGION,
   credentials: {
