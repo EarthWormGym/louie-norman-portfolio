@@ -9,7 +9,7 @@ import { environment } from '../../../environments/environment'; // Import envir
   providedIn: 'root'
 })
 export class MediaService {
-  private baseUrl = environment.baseUrl;
+  private baseUrl = 'http://louie-norman-studio:3000/api/';
   private portfolioUrl = 'portfolio/images';
   private aboutUrl = 'about/images';
 
