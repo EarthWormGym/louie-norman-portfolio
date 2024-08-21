@@ -1,6 +1,6 @@
 {
     "/api": {
-        "target": "http://louie-norman-studio:3000",
+        "target": "https://louie-norman-studio-909d17be2873.herokuapp.com",
         "secure": false
     }
 }
