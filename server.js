@@ -9,7 +9,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(cors({
-  origin: 'louie-norman-studio-909d17be2873.herokuapp.com', // Change to your exact domain
+  origin: 'https://louie-norman-studio-909d17be2873.herokuapp.com', // Change to your exact domain
   optionsSuccessStatus: 200
 }));
 
