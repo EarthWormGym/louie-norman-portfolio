@@ -9,7 +9,7 @@ import { environment } from '../../../environments/environment'; // Import envir
   providedIn: 'root'
 })
 export class MediaService {
-  private baseUrl = 'https://louie-norman-studio-909d17be2873.herokuapp.com/api/';
+  private baseUrl = 'https://www.louienorman.com/api/';
   private portfolioUrl = 'portfolio/images';
   private aboutUrl = 'about/images';
 

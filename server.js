@@ -10,7 +10,7 @@ const port = process.env.PORT || 3000;
 
 // Set up CORS configuration
 app.use(cors({
-  origin: 'https://louie-norman-studio-909d17be2873.herokuapp.com', // Allow only your domain
+  origin: 'https://www.louienorman.com', // Allow only your domain
   optionsSuccessStatus: 200
 }));
 
