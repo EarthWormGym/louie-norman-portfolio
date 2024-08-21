@@ -8,17 +8,16 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Set up CORS configuration
 app.use(cors({
-  origin: 'https://louie-norman-studio-909d17be2873.herokuapp.com', // Change to your exact domain
+  origin: 'https://louie-norman-studio-909d17be2873.herokuapp.com', // Allow only your domain
   optionsSuccessStatus: 200
 }));
 
+// Serve static files from the Angular app
 app.use(express.static(path.join(__dirname, 'public/browser')));
 
-app.get('/*', function(req, res) {
-  res.sendFile(path.join(__dirname, 'public/browser/index.html'));
-});
-
+// Set up the S3 client
 const s3Client = new S3Client({
   region: process.env.AWS_REGION,
   credentials: {
@@ -27,7 +26,8 @@ const s3Client = new S3Client({
   },
 });
 
-const generateUrls = async (bucketName, files, region) => {
+// Helper function to generate signed URLs for S3 objects
+const generateUrls = async (bucketName, files) => {
   const signedUrls = await Promise.all(
     files.map(async file => {
       const command = new GetObjectCommand({
@@ -41,6 +41,7 @@ const generateUrls = async (bucketName, files, region) => {
   return signedUrls;
 };
 
+// Helper function to list objects in an S3 bucket
 const listS3Objects = async (bucketName, prefix) => {
   try {
     const command = new ListObjectsV2Command({
@@ -53,13 +54,14 @@ const listS3Objects = async (bucketName, prefix) => {
       return [];
     }
     const files = data.Contents.map(item => item.Key);
-    return await generateUrls(bucketName, files, process.env.AWS_REGION);
+    return await generateUrls(bucketName, files);
   } catch (error) {
     console.error('Error listing S3 objects:', error);
     return [];
   }
 };
 
+// Define API routes BEFORE the catch-all route
 app.get('/api/portfolio/images', async (req, res) => {
   const bucketName = process.env.AWS_BUCKET_NAME;
   const prefix = 'assets/portfolio/';
@@ -74,6 +76,12 @@ app.get('/api/about/images', async (req, res) => {
   res.json(urls);
 });
 
+// Catch-all route to serve the Angular app's index.html file
+app.get('/*', function(req, res) {
+  res.sendFile(path.join(__dirname, 'public/browser/index.html'));
+});
+
+// Start the server
 app.listen(port, () => {
   console.log(`Server is running on port:${port}`);
 });
