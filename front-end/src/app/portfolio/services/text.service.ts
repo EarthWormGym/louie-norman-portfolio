@@ -53,7 +53,7 @@ export class TextService {
 
     projectLinks: ProjectLinksModel[] = [
         { name: 'From Stone to Stone', link: 'from-stone-to-stone' },
-        { name: 'Bangers', link: 'bangers' },
+        { name: 'Bangers', link: 'short-bangers' },
         { name: 'Jimmy and Jill', link: 'jimmy-and-jill' },
         { name: 'UnDance', link: 'un-dance' },
         { name: 'Rio Ferdinand Foundation', link: 'rio-ferdinand-foundation' },
