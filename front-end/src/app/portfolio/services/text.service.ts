@@ -19,7 +19,7 @@ export class TextService {
                   ' reminder of his presence.' 
         },
         { 
-            name: 'bangersFrame1', 
+            name: 'bangersFrame2', 
             text: 'Coming Soon' 
         },
         { 
