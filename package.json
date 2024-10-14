@@ -10,13 +10,14 @@
         "@aws-sdk/s3-request-presigner": "^3.635.0",
         "cors": "^2.8.5",
         "dotenv": "^16.4.5",
-        "express": "^4.17.1"
+        "express": "^4.17.1",
+        "helmet": "^8.0.0"
     },
     "devDependencies": {
         "@angular/cli": "^12.2.0"
     },
     "engines": {
-      "node": "20.x",
-      "npm": "10.x"
+        "node": "20.x",
+        "npm": "10.x"
     }
 }

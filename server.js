@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const helmet = require('helmet');
 const { S3Client, ListObjectsV2Command, GetObjectCommand } = require('@aws-sdk/client-s3');
 const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
 require('dotenv').config();
@@ -12,6 +13,14 @@ const port = process.env.PORT || 3000;
 app.use(cors({
   origin: 'https://www.louienorman.com', // Allow only your domain
   optionsSuccessStatus: 200
+}));
+
+// Use Helmet to set various HTTP headers, including HSTS
+app.use(helmet());
+app.use(helmet.hsts({
+  maxAge: 31536000, // 1 year in seconds
+  includeSubDomains: true,
+  preload: true
 }));
 
 // Serve static files from the Angular app
