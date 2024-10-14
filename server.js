@@ -15,16 +15,15 @@ app.use(cors({
   optionsSuccessStatus: 200
 }));
 
-// Use Helmet to set various HTTP headers, including HSTS
-app.use(helmet());
-app.use(helmet.hsts({
+// Serve static files from the Angular app
+app.use(express.static(path.join(__dirname, 'public/browser')));
+
+// Enable hsts on domain
+app.use('/', helmet.hsts({
   maxAge: 31536000, // 1 year in seconds
   includeSubDomains: true,
   preload: true
 }));
-
-// Serve static files from the Angular app
-app.use(express.static(path.join(__dirname, 'public/browser')));
 
 // Set up the S3 client
 const s3Client = new S3Client({
