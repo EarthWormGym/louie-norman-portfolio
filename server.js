@@ -18,12 +18,12 @@ app.use(cors({
 // Serve static files from the Angular app
 app.use(express.static(path.join(__dirname, 'public/browser')));
 
-// Enable hsts on domain
-app.use(helmet.hsts({
-  maxAge: 31536000, // 1 year in seconds
-  includeSubDomains: true,
-  preload: true
-}));
+app.use((req, res, next) => {
+  if (req.headers['x-forwarded-proto'] !== 'https') {
+    return res.redirect(301, `https://${req.headers.host}${req.url}`);
+  }
+  next();
+});
 
 // Set up the S3 client
 const s3Client = new S3Client({
