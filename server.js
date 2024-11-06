@@ -19,7 +19,7 @@ app.use(cors({
 app.use(express.static(path.join(__dirname, 'public/browser')));
 
 // Enable hsts on domain
-app.use('/', helmet.hsts({
+app.use(helmet.hsts({
   maxAge: 31536000, // 1 year in seconds
   includeSubDomains: true,
   preload: true
